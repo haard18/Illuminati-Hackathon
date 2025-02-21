@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 // Create a new bookingModel
 Bookingrouter.post("/makebooking", async (req, res) => {
     try {
-      const { buyer, eventId, total, transactionHash, tickets } = req.body;
+      const { buyer, eventId, total, transactionHash, tickets,status } = req.body;
   
       // Validate input
       if (!buyer || !eventId || !total || !transactionHash || !tickets.length) {

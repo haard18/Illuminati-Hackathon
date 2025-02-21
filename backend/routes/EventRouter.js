@@ -37,10 +37,11 @@ Eventrouter.post("/addEvent", authenticateArtist, async (req, res) => {
       earlyBird,
       ticketOpeningDate,
       ticketClosingDate,
+      coverImage  
     } = req.body;
 
     // Ensure all required fields are present
-    if (!type || !date || !venue || !artist || !standTicket || !vvipTicket || !earlyBird || !ticketOpeningDate || !ticketClosingDate) {
+    if (!type || !date || !venue || !artist || !standTicket || !vvipTicket || !earlyBird || !ticketOpeningDate || !ticketClosingDate || !coverImage) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
@@ -63,6 +64,7 @@ Eventrouter.post("/addEvent", authenticateArtist, async (req, res) => {
       artistWalletAddress: artistData.walletAddress, // Use wallet address from artist's profile
       ticketOpeningDate,
       ticketClosingDate,
+      coverImage  
     });
 
     await event.save();
@@ -114,6 +116,19 @@ Eventrouter.get("/:eventId/available-tickets", async (req, res) => {
   }
 });
 
+Eventrouter.get("/:eventId/details", async (req, res) => {
+  try {
+    const { eventId } = req.params;
+    // Populate artist details when finding the event
+    const event = await Event.findById(eventId).populate('artist');
+    if (!event) {
+      return res.status(404).json({ error: "Event not found" });
+    }
+    res.status(200).json({ event });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 module.exports = Eventrouter;
 
