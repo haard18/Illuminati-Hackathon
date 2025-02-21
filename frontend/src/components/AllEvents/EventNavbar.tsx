@@ -1,59 +1,25 @@
 import React from 'react';
-import { Menu } from 'lucide-react';
 
-const SearchIcon = () => (
-  <svg viewBox="0 0 40 40" className="w-6 h-6">
-    <circle
-      cx="18"
-      cy="18"
-      r="10"
-      fill="#000000"
-      stroke="currentColor"
-      strokeWidth="2"
-    />
-    <line
-      x1="25"
-      y1="25"
-      x2="33"
-      y2="33"
-      stroke="currentColor"
-      strokeWidth="4"
-      strokeLinecap="round"
-    />
-  </svg>
-);
-
-const Navbar = () => {
+const SearchBar = () => {
   return (
-    <div className="w-full bg-black">
-      {/* Top Navigation Bar */}
-      <nav className="w-full px-8 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-[35px] h-[35px] bg-[#FF895E] rounded-full border-2 border-white" />
-          <span className="text-white font-['League Spartan'] text-lg">Logo Here</span>
-        </div>
-        <button className="text-white p-1">
-          <Menu size={40} />
-        </button>
-      </nav>
-
+    <div className="w-full bg-black px-9 pb-5">
       {/* Search Bar Section */}
-      <div className="px-8 pb-4">
-        <div className="relative flex items-center">
-          <div className="absolute left-4 flex items-center text-gray-500">
-            <SearchIcon />
-          </div>
-          <input
-            type="text"
-            placeholder="Search"
-            className="w-full py-3 pl-14 pr-4 bg-gray-200 rounded-2xl
-                       focus:outline-none focus:ring-2 focus:ring-gray-300
-                       font-['Kanit'] text-lg placeholder-gray-500"
-          />
+      <div className="relative flex items-center">
+        <div className="absolute left-4 flex items-center text-gray-500">
+          <svg width="28" height="60" viewBox="0 0 83 83" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M36.3125 6.91667C41.8319 6.9163 47.2399 8.46983 51.9176 11.3995C56.5952 14.3291 60.3536 18.5165 62.7626 23.4824C65.1716 28.4483 66.1339 33.9921 65.5392 39.4794C64.9446 44.9666 62.8172 50.1756 59.4004 54.5103L72.0302 67.1401C72.6601 67.7923 73.0087 68.6659 73.0008 69.5727C72.993 70.4794 72.6293 71.3468 71.9881 71.988C71.3469 72.6292 70.4795 72.993 69.5727 73.0008C68.6659 73.0087 67.7923 72.6601 67.1401 72.0302L54.5103 59.4003C50.8287 62.3018 46.5066 64.2807 41.9047 65.172C37.3028 66.0633 32.5544 65.8412 28.0558 64.5242C23.5572 63.2072 19.4387 60.8335 16.044 57.6011C12.6494 54.3686 10.0769 50.3713 8.54134 45.9425C7.00574 41.5137 6.55151 36.7819 7.21655 32.1419C7.8816 27.5019 9.64663 23.0882 12.3644 19.269C15.0821 15.4498 18.6738 12.336 22.8397 10.1872C27.0057 8.03843 31.6251 6.91707 36.3125 6.91667ZM36.3125 13.8333C30.3507 13.8333 24.633 16.2017 20.4173 20.4173C16.2017 24.633 13.8334 30.3507 13.8334 36.3125C13.8334 42.2743 16.2017 47.992 20.4173 52.2077C24.633 56.4233 30.3507 58.7917 36.3125 58.7917C42.2744 58.7917 47.992 56.4233 52.2077 52.2077C56.4234 47.992 58.7917 42.2743 58.7917 36.3125C58.7917 30.3507 56.4234 24.633 52.2077 20.4173C47.992 16.2017 42.2744 13.8333 36.3125 13.8333ZM36.3125 17.2917C41.3572 17.2917 46.1952 19.2956 49.7623 22.8627C53.3294 26.4298 55.3334 31.2679 55.3334 36.3125C55.3334 41.3571 53.3294 46.1952 49.7623 49.7623C46.1952 53.3294 41.3572 55.3333 36.3125 55.3333C31.2679 55.3333 26.4299 53.3294 22.8628 49.7623C19.2957 46.1952 17.2917 41.3571 17.2917 36.3125C17.2917 31.2679 19.2957 26.4298 22.8628 22.8627C26.4299 19.2956 31.2679 17.2917 36.3125 17.2917Z" fill="black"/>
+          </svg>
         </div>
+        <input
+          type="text"
+          placeholder="Search"
+          className="w-full py-3 pl-14 pr-4 bg-gray-200 rounded-2xl
+                     focus:outline-none focus:ring-2 focus:ring-gray-300
+                     font-['Kanit'] text-lg placeholder-gray-500"
+        />
       </div>
     </div>
   );
 };
 
-export default Navbar;
+export default SearchBar;
