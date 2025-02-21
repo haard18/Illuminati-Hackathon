@@ -5,6 +5,7 @@ import RollingGallery from "../RollingGallery";
 import EventCarousel from "../components/EventCarousel";
 // import Events from "../components/Event";
 import Aboutus from "../Aboutus";
+import EventPromotion from "../components/Landingpage/EventPromotion";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -36,6 +37,8 @@ const Home = () => {
         <div className="flex justify-center items-center bg-black">
           <Aboutus />
         </div>
+        <EventPromotion />
+        
       </div>
     </>
   );
