@@ -10,7 +10,7 @@ const StadiumSeating = () => {
         { id: 'G', range: '10 203-245', color: 'bg-teal-500' }
     ];
 
-    return (
+    return (    
         <div className="relative w-full h-screen bg-gradient-to-br from-purple-800 to-purple-600 p-8">
             {/* Event Details */}
             <div className="absolute top-8 left-8 text-white">
