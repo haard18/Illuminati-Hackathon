@@ -16,10 +16,15 @@ interface EventDetails {
   earlyBird: TicketType;
 }
 
-const BookingPage = () => {
+interface BookingPageProps {
+  onBookNow: () => void; // Prop to handle Book Now button click
+  tickets: { type: string; quantity: number }[]; // Accept tickets as prop
+  setTickets: React.Dispatch<React.SetStateAction<{ type: string; quantity: number }[]>>; // Accept setTickets function as prop
+}
+
+const BookingPage: React.FC<BookingPageProps> = ({ onBookNow, tickets, setTickets }) => {
   const { id: eventId } = useParams();
   const [event, setEvent] = useState<EventDetails | null>(null);
-  const [tickets, setTickets] = useState<{ type: string; quantity: number }[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -40,7 +45,7 @@ const BookingPage = () => {
     if (eventId) fetchEventDetails();
   }, [eventId]);
 
-  const handleQuantityChange = (type: string, price: number, change: number) => {
+  const handleQuantityChange = (type: string, change: number) => {
     setTickets((prevTickets) => {
       const existingTicket = prevTickets.find((ticket) => ticket.type === type);
       let updatedTickets = prevTickets.filter((ticket) => ticket.type !== type);
@@ -54,45 +59,20 @@ const BookingPage = () => {
         updatedTickets.push({ type, quantity: 1 });
       }
 
-      const newTotal = updatedTickets.reduce(
-        (sum, ticket) =>
-          sum +
-          (ticket.type === "StandTicket"
-            ? event?.standTicket.price || 0
-            : ticket.type === "VVIPTicket"
-              ? event?.vvipTicket.price || 0
-              : event?.earlyBird.price || 0) * ticket.quantity,
-        0
-      );
+      // Calculate the new total price based on the updated tickets
+      const newTotal = updatedTickets.reduce((sum, ticket) => {
+        const ticketDetails = event?.[ticket.type as keyof EventDetails]; // Get ticket details from event
+        return sum + (parseInt(ticketDetails?.price.toString() || "0") * parseInt(ticket.quantity.toString() || "0")); // Calculate total price
+      }, 0);
 
       setTotal(newTotal);
       return updatedTickets;
     });
   };
 
-  const handleBooking = async () => {
-    if (!eventId || tickets.length === 0 || total === 0) {
-      alert("Please select tickets before booking.");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      await axios.post("http://localhost:3000/booking/makebooking", {
-        buyer: "user_wallet_address",
-        eventId,
-        total,
-        transactionHash: "dummy_hash",
-        tickets,
-        status: "pending",
-      });
-      alert("Booking successful!");
-    } catch (err) {
-      alert("Booking failed. Please try again.");
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
+  const handleBooking = () => {
+    // Call the onBookNow function when the button is clicked
+    onBookNow();
   };
 
   if (error) return <div className="p-4 text-red-500">{error}</div>;
@@ -113,7 +93,7 @@ const BookingPage = () => {
               <div className="flex items-center gap-2">
                 <button
                   className=" text-black w-6 h-6 rounded flex items-center justify-center"
-                  onClick={() => handleQuantityChange(type, ticket.price, -1)}
+                  onClick={() => handleQuantityChange(type, -1)}
                   disabled={!selectedTicket || selectedTicket.quantity <= 0}
                 >
                   -
@@ -121,7 +101,7 @@ const BookingPage = () => {
                 <span className="text-black text-xl">{selectedTicket?.quantity || 0}</span>
                 <button
                   className=" text-black w-6 h-6 rounded flex items-center justify-center"
-                  onClick={() => handleQuantityChange(type, ticket.price, 1)}
+                  onClick={() => handleQuantityChange(type, 1)}
                   disabled={selectedTicket?.quantity === ticket.capacity}
                 >
                   +
@@ -135,7 +115,7 @@ const BookingPage = () => {
       <div className="flex justify-between gap-12 p-6">
         {/* Left Column - Total Price */}
         <div className="flex flex-col justify-end">
-          <div className="text-white  border border-white rounded-2xl p-4">
+          <div className="text-white border border-white rounded-2xl p-4">
             <h3 className="text-2xl font-[Kanit-Bold]">Total Price = {total}</h3>
           </div>
         </div>
@@ -156,14 +136,13 @@ const BookingPage = () => {
 
           {/* Book Now Button */}
           <button
+            onClick={handleBooking} // Call handleBooking on click
             className="bg-[#A14BFD] text-white text-4xl px-12 py-3 rounded-3xl font-[Karantina-Regular]"
-            onClick={handleBooking}
             disabled={loading || tickets.length === 0}
           >
             {loading ? "Processing..." : "BOOK NOW"}
           </button>
         </div>
-
       </div>
     </div>
   );
