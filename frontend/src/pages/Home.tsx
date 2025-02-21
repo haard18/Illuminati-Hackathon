@@ -40,6 +40,7 @@ const Home = () => {
         </div>
         <EventPromotion/>
         <Footer/>
+        
       </div>
     </>
   );
