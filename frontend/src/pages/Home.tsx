@@ -8,6 +8,7 @@ import Aboutus from "../Aboutus";
 import EventPromotion from "../components/Landingpage/EventPromotion";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Footer from "../components/Footer";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -33,12 +34,12 @@ const Home = () => {
       <div className="bg-black h-[800px] pt-20 mt-[-18%]">
         <Landing2 />
         <EventCarousel/>
-        <RollingGallery/>
+        <RollingGallery autoplay={true}/>
         <div className="flex justify-center items-center bg-black">
           <Aboutus />
         </div>
-        <EventPromotion />
-        
+        <EventPromotion/>
+        <Footer/>
       </div>
     </>
   );
