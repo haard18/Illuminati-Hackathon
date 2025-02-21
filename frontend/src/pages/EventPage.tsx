@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Header from '../components/Eventpage/Header';
 import Description from '../components/Eventpage/Description';
+import BookingPage from '../components/Eventpage/Booking';
 
 interface ArtistDetails {
   name: string;
@@ -64,7 +65,8 @@ const EventPage = () => {
           eventName={event.description || "No description available"} 
           
         />
-        <hr />
+        <hr className='' />
+        <BookingPage/>
       </div>
     </div>
   );
