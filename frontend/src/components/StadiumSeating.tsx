@@ -1,4 +1,6 @@
-import seats from '../assets/seats.png'
+import React from 'react';
+import seats from '../assets/seats.png';
+import bg from '../assets/bg.png'; // Import the background image
 
 const StadiumSeating = () => {
     const sections = [
@@ -11,16 +13,23 @@ const StadiumSeating = () => {
     ];
 
     return (    
-        <div className="relative w-full h-screen bg-gradient-to-br from-purple-800 to-purple-600 p-8">
+        <div 
+            className="relative w-full h-screen p-8"
+            style={{ 
+                backgroundImage: `url(${bg})`, // Set the background image
+                backgroundSize: 'cover', // Ensure the image covers the entire background
+                backgroundPosition: 'center', // Center the background image
+            }}
+        >
             {/* Event Details */}
-            <div className="absolute top-8 left-8 text-white">
-                <h1 className="text-5xl font-bold tracking-wider mb-1">COLDPLAY X</h1>
-                <h1 className="text-5xl font-bold tracking-wider mb-4">INDIA</h1>
-                <h2 className="text-2xl font-semibold mb-6">MUSIC OF SPHERES</h2>
+            <div className="absolute top-8 left-8 text-white mt-34">
+                <h1 className="text-8xl font-[Karantina-Regular] tracking-wider mb-1">COLDPLAY X</h1>
+                <h1 className="text-8xl font-[Karantina-Regular] tracking-wider mb-4">INDIA</h1>
+                <h2 className="text-6xl font-[Karantina-Light] mb-6">MUSIC OF SPHERES</h2>
                 <div className="space-y-1">
-                    <p>Saturday, 25 January</p>
-                    <p>6:00 pm</p>
-                    <p>Mumbai, Maharashtra</p>
+                    <p className="text-2xl font-[Kanit-Thin]">Saturday, 25 January</p>
+                    <p className="text-2xl font-[Kanit-Thin]">6:00 pm</p>
+                    <p className="text-2xl font-[Kanit-Thin]">Mumbai, Maharashtra</p>
                 </div>
             </div>
 
@@ -45,19 +54,19 @@ const StadiumSeating = () => {
             </div>
 
             {/* Legend */}
-            <div className="absolute top-8 right-8 space-y-3">
+            <div className="absolute top-8 right-8 space-y-3 mt-34">
                 {sections.map((section) => (
-                    <div key={section.id} className="flex items-center justify-end gap-3 text-white">
+                    <div key={section.id} className="flex items-center justify-end gap-4 text-2xl font-[Kanit-Thin] text-white">
                         <span>{section.id}-{section.range}</span>
                         <div className={`w-6 h-6 ${section.color} rounded`}></div>
                     </div>
                 ))}
-                <div className="flex items-center justify-end gap-3 text-white">
-                    <span>Foodcourt & Restroom</span>
+                <div className="flex items-center justify-end gap-4 text-white">
+                    <span className="text-2xl font-[Kanit-Thin]">Foodcourt & Restroom</span>
                     <div className="w-6 h-6 bg-pink-400 rounded"></div>
                 </div>
-                <div className="flex items-center justify-end gap-3 text-white">
-                    <span>Parking Area</span>
+                <div className="flex items-center justify-end gap-4 text-white">
+                    <span className="text-2xl font-[Kanit-Thin]">Parking Area</span>
                     <div className="w-6 h-6 bg-orange-500 rounded"></div>
                 </div>
             </div>
