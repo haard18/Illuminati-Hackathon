@@ -18,7 +18,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/auth" element={<Auth/>} />
           <Route path="callback" element={<SpotifyCallback/>} />
-          <Route path="/event" element={<EventPage/>} />
+          <Route path="/event/:id" element={<EventPage/>} />
           <Route path="/allevent" element={<Events/>} />
           {/* <Route path="/about" element={<About />} /> */}
         </Routes>

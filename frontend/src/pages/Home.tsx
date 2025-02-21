@@ -12,16 +12,16 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const navigate = useNavigate();
   const [counter,setcounter]=useState(0);
-  useEffect(() => {
-    const token = localStorage.getItem("spotify_access_token");
-    const hasNavigated = localStorage.getItem("hasNavigated");
+  // useEffect(() => {
+  //   const token = localStorage.getItem("spotify_access_token");
+  //   const hasNavigated = localStorage.getItem("hasNavigated");
 
-    if (token && counter === 0 && !hasNavigated) {
-      navigate("/auth");
-      localStorage.setItem("hasNavigated", "true");
-      setcounter(counter + 1);
-    }
-  }, [navigate, counter]);
+  //   if (token && counter === 0 && !hasNavigated) {
+  //     navigate("/auth");
+  //     localStorage.setItem("hasNavigated", "true");
+  //     setcounter(counter + 1);
+  //   }
+  // }, [navigate, counter]);
   return (
     <>
       <div className="bg-black">

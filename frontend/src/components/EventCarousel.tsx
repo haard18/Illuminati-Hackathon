@@ -1,9 +1,23 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronRight, ArrowUpRight } from "lucide-react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+interface Artist {
+  name: string;
+}
+
+interface Event {
+  _id: string;
+  coverImage: string;
+  artist: Artist;
+  date: string;
+  venue: string;
+}
 
 const EventCarousel: React.FC = () => {
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState<Event[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -21,7 +35,7 @@ const EventCarousel: React.FC = () => {
     <div className="bg-black p-6 flex flex-col items-center mt-16">
       {/* Event Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-60 gap-y-14">
-        {events.map((event, index) => (
+        {events.map((event: Event, index: number) => (
           <div
             key={event._id}
             className="relative flex items-center bg-[#FFE992] p-4 rounded-4xl shadow-lg w-[380px] h-[150px]"
@@ -70,6 +84,7 @@ const EventCarousel: React.FC = () => {
             {/* More Details Button */}
             <button
               className="absolute top-1/2 right-0 transform -translate-y-1/2 translate-x-1/2 bg-[#FF895E] hover:bg-gray-900 hover:text-white text-black p-2 rounded-full outline-none focus:outline-none"
+              onClick={() => navigate(`/event/${event._id}`)}
             >
               <ChevronRight size={26} />
             </button>
