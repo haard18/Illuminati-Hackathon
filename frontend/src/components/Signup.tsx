@@ -2,7 +2,7 @@ import React from "react";
 import registerSpotify from "../assets/Images/Registerspotify.png";
 import spotifyLogo from "../assets/Images/spotifylogo.png";
 
-const Signup = () => {
+const Signup = ({ userName, email }: { userName: string; email: string }) => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-black">
       <div className="bg-[#D9D9D9] p-8 rounded-2xl shadow-lg w-[400px] flex flex-col items-center">
@@ -22,6 +22,7 @@ const Signup = () => {
             type="text"
             id="username"
             placeholder="Enter your username"
+            value={userName}
             className="w-full p-3 border border-gray-300 rounded-lg mb-3 bg-[#9C9A9A] text-white placeholder-white/70 focus:outline-none focus:border-[#1DB954]"
           />
 
@@ -33,6 +34,7 @@ const Signup = () => {
             type="email"
             id="email"
             placeholder="Enter your email"
+            value={email}
             className="w-full p-3 border border-gray-300 rounded-lg mb-3 bg-[#9C9A9A] text-white placeholder-white/70 focus:outline-none focus:border-[#1DB954]"
           />
 
