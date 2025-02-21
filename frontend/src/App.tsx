@@ -1,12 +1,12 @@
 import { useState } from 'react'
 
 import './App.css'
-
+import WertWidgetButton from './Components/Wert'
 function App() {
 
   return (
     <>
-      <h1 className='text-3xl font-[Kanit-bold]  underline'>Hello World</h1>
+      <WertWidgetButton />
     </>
   )
 }
