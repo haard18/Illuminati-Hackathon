@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const Event = require("../Models/EventModel");
 const Artist = require("../Models/ArtistModel");
 require("dotenv").config();
-
+const bookingModel = require("../Models/BookingSchema");
 const Eventrouter = express.Router();
 
 // Middleware to verify JWT token and extract artist ID
@@ -140,6 +140,59 @@ Eventrouter.get("/:eventId/details", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+Eventrouter.get("/getMyEvents", authenticateArtist, async (req, res) => {
+  try {
+    const artistId = req.artistId;
+    const events = await Event.find({ artist: artistId });
+    return res.status(200).json({ events });
+  } catch (error) {
+    console.error("Error getting events:", error);
+    return res.status(500).json({ error: error.message });
+  }
+})
+Eventrouter.post('/distributeTickets/:eventId', authenticateArtist, async (req, res) => {
+  try {
+    const { eventId } = req.params;
+    console.log(req.body)
+    const event = await Event.findById(eventId);
+    if (!event) {
+      return res.status(404).json({ error: "Event not found" });
+    }
 
+    let totalCapacity =
+      event.standTicket.capacity +
+      event.vvipTicket.capacity +
+      event.earlyBird.capacity;
+    
+    if (!event.queue || event.queue.length === 0) {
+      return res.status(400).json({ message: "No users in the queue." });
+    }
+
+    let acceptedCount = 0;
+    
+    for (let i = 0; i < event.queue.length && acceptedCount < totalCapacity; i++) {
+      let queueEntry = event.queue[i];
+      queueEntry.status = "accepted";
+      acceptedCount++;
+      
+      // Update booking status
+      const booking=await bookingModel.findOneAndUpdate({event:eventId},{status:"eligible"});
+      if(!booking){
+        return res.status(404).json({message:"Booking not found"});
+      }
+      await booking.save();
+
+    }
+
+    // Save the updated event queue
+    await event.save();
+
+    res.status(200).json({ message: "Queue processed successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+
+
+});
 module.exports = Eventrouter;
 

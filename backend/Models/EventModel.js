@@ -59,6 +59,10 @@ const eventSchema = new mongoose.Schema({
     fanscore: {
       type: Number,
       required: true,
+    },
+    status:{
+      type:String,
+      
     }
   }]
 }, { timestamps: true });

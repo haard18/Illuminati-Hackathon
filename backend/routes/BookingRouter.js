@@ -78,6 +78,16 @@ Bookingrouter.post("/makebooking", authenticateUser, async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 });
+Bookingrouter.get('/getMyBookings',authenticateUser,async(req,res)=>{
+  try{
+    const userId=req.userId;
+    const bookings=await bookingModel.find({buyer:userId});
+    return res.status(200).json({bookings});
+  }catch(error){
+    console.error("Error getting bookings:", error);
+    return res.status(500).json({error:error.message});
+  }
+})
 Bookingrouter.post('/updateBooking/:bookingId',async(req,res)=>{
     try{
       const {bookingId}=req.params;
