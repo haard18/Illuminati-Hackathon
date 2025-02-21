@@ -50,6 +50,17 @@ const eventSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  queue: [{
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    fanscore: {
+      type: Number,
+      required: true,
+    }
+  }]
 }, { timestamps: true });
 
 

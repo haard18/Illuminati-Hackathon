@@ -8,7 +8,7 @@ const Hero = () => {
       className="bg-black relative h-[800px] w-full flex flex-col bg-hero tracking-widest"
       style={{ fontFamily: "Karantina-regular" }}
     >
-      <div className="flex w-full  h-full flex-col gap-[10%] mt-[-4%]">
+      <div className="flex w-full  h-full flex-col gap-[10%] ">
         {/* Text Content */}
         <div className="w-1/2 flex flex-col  text-white z-10 mt-[8%] px-2">
           <p
