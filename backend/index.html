@@ -20,18 +20,23 @@
     <label>Token URI:</label>
     <input type="text" id="tokenURI" placeholder="Token URI will appear here" readonly>
     
+    <label>Quantity:</label>
+    <input type="number" id="quantity" value="1" min="1" placeholder="Enter Quantity">
+    
     <button onclick="mintTicket()">Buy Ticket (Mint NFT)</button>
 
     <script>
-        const contractAddress = "0xF91Ae5fe0e8E51a73703dC7174bad76E4a442f6C";
-        const royaltyAddress = "0x8D536f16AC275FC14A0ce61E01Db9144D72dC400";//fetch from backend-artist
+        const contractAddress = "0xAbAAc1ac5C6C06d022eE9432c8a5cD68bddeA81A";
+        const royaltyAddress = "0xBeb5862631Ab549fdD36F231C339261F16293a7E";//fetch from backend-artist
         const backendEndpoint = "http://localhost:3000/create-ticket";
 
         const contractABI = [
             {
                 "inputs": [
                     { "internalType": "string", "name": "_tokenURI", "type": "string" },
-                    { "internalType": "address", "name": "_royaltyAddress", "type": "address" }
+                    { "internalType": "address", "name": "_royaltyAddress", "type": "address" },
+                    { "internalType": "uint256", "name": "price", "type": "uint256" },
+                    { "internalType": "uint256", "name": "quantity", "type": "uint256" }
                 ],
                 "name": "mintTicket",
                 "outputs": [],
@@ -40,7 +45,7 @@
             }
         ];
 
-        let web3 = new Web3("https://sepolia.infura.io/v3/YOUR_INFURA_PROJECT_ID");
+        let web3 = new Web3("https://sepolia.infura.io/v3/62ea68f978fa4aa89c251a5778254b1b");
         let contract = new web3.eth.Contract(contractABI, contractAddress);
         let userAccount;
 
@@ -86,7 +91,8 @@
 
         async function mintTicket() {
             const tokenURI = document.getElementById("tokenURI").value;
-            const mintPrice = web3.utils.toWei("0.05", "ether");
+            const quantity = document.getElementById("quantity").value;
+            const mintPrice = web3.utils.toWei("0.0001", "ether");
 
             if (!tokenURI) {
                 alert("Fetch Token URI first!");
@@ -94,8 +100,8 @@
             }
 
             try {
-                await contract.methods.mintTicket(tokenURI, royaltyAddress)
-                    .send({ from: userAccount, value: mintPrice });
+                await contract.methods.mintTicket(tokenURI, royaltyAddress, mintPrice, quantity)
+                    .send({ from: userAccount, value: mintPrice * quantity });
                 alert("NFT Minted Successfully!");
             } catch (error) {
                 console.error(error);

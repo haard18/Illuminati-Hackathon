@@ -9,6 +9,7 @@ const { PinataSDK } = require("pinata-web3");
 const path = require("path");
 require("dotenv").config();
 const cors = require("cors");
+const EventModel = require("./Models/EventModel");
 const app = express();
 app.use(cors());
 connectDB();
@@ -68,22 +69,25 @@ async function uploadFileToIPFS(buffer, fileName, fileType) {
  * Route for creating a ticket and metadata.
  */
 app.post("/create-ticket", async (req, res) => {
-  const { eventId, ticketId, userAddress } = req.body;
+  const { eventId, ticketId, userAddress, quantity } = req.body;
   //call the concert database
   // coldplayConcert = { date,time,location,seatingtickets=300, standingtickets=200, vip=100, vvip=50}
   // concert.standingtickets==0;
   // return res.status(400).json({ error: "No standing tickets available" });
-  // 
-  // 
-  // 
-  // 
+  //
+  //
+  //
+  //
   try {
-    if (!eventId || !ticketId || !userAddress) {
+    if (!eventId || !ticketId || !userAddress || !quantity) {
       return res.status(400).json({ error: "Missing required fields" });
     }
-
+    const event = await EventModel.findById(eventId);
+    if (!event) {
+      return res.status(400).json({ error: "Event not found" });
+    }
     // Prepare QR code data
-    const qrData = `eventId:${eventId}-ticketId:${ticketId}-user:${userAddress}`;
+    const qrData = `eventName:${event.name}-eventId:${eventId}-ticketId:${ticketId}-user:${userAddress}-quantity:${quantity}`;
     const qrFileName = `ticket-${ticketId}.png`;
 
     // Generate QR code as Buffer
@@ -134,7 +138,7 @@ app.post("/create-ticket", async (req, res) => {
  * Handle home route (for serving the frontend).
  */
 app.get("/", (req, res) => {
-    res.json({ message: "Welcome to the Ticketing API" });
+  res.json({ message: "Welcome to the Ticketing API" });
 });
 
 app.use("/events", EventRouter);
