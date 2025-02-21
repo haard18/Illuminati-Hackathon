@@ -33,7 +33,7 @@ export default function Landing2() {
         <img
           src={events[current].image}
           alt={events[current].title}
-          className="w-full h-96 object-cover"
+          className="w-full h-96 object-cover"x
         />
         {/* Purple overlay */}
         <div className="absolute inset-0 bg-purple-600/30 " style={{borderRadius:'0px 0px 50px 50px'}} />
