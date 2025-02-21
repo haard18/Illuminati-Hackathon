@@ -5,8 +5,22 @@ import RollingGallery from "../RollingGallery";
 import EventCarousel from "../components/EventCarousel";
 // import Events from "../components/Event";
 import Aboutus from "../Aboutus";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
+  const [counter,setcounter]=useState(0);
+  useEffect(() => {
+    const token = localStorage.getItem("spotify_access_token");
+    const hasNavigated = localStorage.getItem("hasNavigated");
+
+    if (token && counter === 0 && !hasNavigated) {
+      navigate("/auth");
+      localStorage.setItem("hasNavigated", "true");
+      setcounter(counter + 1);
+    }
+  }, [navigate, counter]);
   return (
     <>
       <div className="bg-black">
