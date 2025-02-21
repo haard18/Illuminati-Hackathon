@@ -19,9 +19,7 @@ interface EventDetails {
 const BookingPage = () => {
   const { id: eventId } = useParams();
   const [event, setEvent] = useState<EventDetails | null>(null);
-  const [tickets, setTickets] = useState<{ type: string; quantity: number }[]>(
-    []
-  );
+  const [tickets, setTickets] = useState<{ type: string; quantity: number }[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -30,7 +28,7 @@ const BookingPage = () => {
     const fetchEventDetails = async () => {
       try {
         const response = await axios.get(
-        `http://localhost:3000/events/${eventId}/details`
+          `http://localhost:3000/events/${eventId}/details`
         );
         setEvent(response.data.event);
       } catch (err) {
@@ -56,15 +54,14 @@ const BookingPage = () => {
         updatedTickets.push({ type, quantity: 1 });
       }
 
-      // Calculate new total
       const newTotal = updatedTickets.reduce(
         (sum, ticket) =>
           sum +
-          (ticket.type === "standTicket"
+          (ticket.type === "StandTicket"
             ? event?.standTicket.price || 0
-            : ticket.type === "vvipTicket"
-            ? event?.vvipTicket.price || 0
-            : event?.earlyBird.price || 0) * ticket.quantity,
+            : ticket.type === "VVIPTicket"
+              ? event?.vvipTicket.price || 0
+              : event?.earlyBird.price || 0) * ticket.quantity,
         0
       );
 
@@ -82,14 +79,13 @@ const BookingPage = () => {
     setLoading(true);
     try {
       await axios.post("http://localhost:3000/booking/makebooking", {
-        buyer: "user_wallet_address", // Replace with actual user data
+        buyer: "user_wallet_address",
         eventId,
         total,
         transactionHash: "dummy_hash",
         tickets,
         status: "pending",
       });
-
       alert("Booking successful!");
     } catch (err) {
       alert("Booking failed. Please try again.");
@@ -99,36 +95,32 @@ const BookingPage = () => {
     }
   };
 
-  if (error) return <div>{error}</div>;
-  if (!event) return <div>Loading event details...</div>;
+  if (error) return <div className="p-4 text-red-500">{error}</div>;
+  if (!event) return <div className="p-4">Loading event details...</div>;
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold text-center">{event.artist.name} - Booking</h2>
-
+    <div className="p-4 max-w-full mx-auto flex gap-4">
       {/* Ticket Selection Container */}
-      <div className="mt-6 bg-gray-900 text-white p-6 rounded-lg shadow-lg max-w-lg mx-auto">
+      <div className="flex-grow border font-[Kanit-SemiBold] bg-gradient-to-r to-black from-[#FFEDED] max-w-5xl border-gray-600 rounded-xl p-6 shadow-lg ">
         {["standTicket", "vvipTicket", "earlyBird"].map((type) => {
           const ticket = event[type as keyof EventDetails] as TicketType;
           const selectedTicket = tickets.find((t) => t.type === type);
           return (
-            <div key={type} className="flex justify-between items-center p-3 border-b">
-              <span className="font-semibold text-lg">
-                {type.replace("Ticket", "")} - ₹{ticket.price}
+            <div key={type} className="bg-gradient-to-l to-[#FFFFFF] from-[#A14BFD] rounded-lg mb-3 p-3 flex justify-between items-center">
+              <span className="text-black font-medium">
+                {type.replace("Ticket", "").replace(/([A-Z])/g, ' $1').trim()} - ₹{ticket.price}
               </span>
-
-              {/* Increment & Decrement Buttons */}
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center gap-2">
                 <button
-                  className="bg-red-500 text-white px-3 py-1 rounded-md"
+                  className=" text-black w-6 h-6 rounded flex items-center justify-center"
                   onClick={() => handleQuantityChange(type, ticket.price, -1)}
                   disabled={!selectedTicket || selectedTicket.quantity <= 0}
                 >
                   -
                 </button>
-                <span className="text-xl font-semibold">{selectedTicket?.quantity || 0}</span>
+                <span className="text-black text-xl">{selectedTicket?.quantity || 0}</span>
                 <button
-                  className="bg-green-500 text-white px-3 py-1 rounded-md"
+                  className=" text-black w-6 h-6 rounded flex items-center justify-center"
                   onClick={() => handleQuantityChange(type, ticket.price, 1)}
                   disabled={selectedTicket?.quantity === ticket.capacity}
                 >
@@ -140,19 +132,39 @@ const BookingPage = () => {
         })}
       </div>
 
-      {/* Total Amount */}
-      <div className="mt-4 text-center">
-        <h3 className="text-xl font-semibold">Total: ₹{total}</h3>
-      </div>
+      <div className="flex justify-between gap-12 p-6">
+        {/* Left Column - Total Price */}
+        <div className="flex flex-col justify-end">
+          <div className="text-white  border border-white rounded-2xl p-4">
+            <h3 className="text-2xl font-[Kanit-Bold]">Total Price = {total}</h3>
+          </div>
+        </div>
 
-      {/* Booking Button */}
-      <button
-        onClick={handleBooking}
-        className="bg-purple-600 text-white p-3 mt-4 w-full rounded-lg shadow-md hover:bg-purple-700 transition"
-        disabled={loading}
-      >
-        {loading ? "Processing..." : "Book Now"}
-      </button>
+        {/* Right Column - Starts From and Book Now */}
+        <div className="flex flex-col items-center justify-end space-y-2">
+          {/* Starts From Section */}
+          <div className="text-white text-center">
+            <h3 className="opacity-80 text-3xl font-[Kanit-Bold]">STARTS FROM</h3>
+            <p className="text-4xl font-[Kanit-Bold]">
+              ₹{Math.min(
+                event.standTicket.price,
+                event.vvipTicket.price,
+                event.earlyBird.price
+              )}
+            </p>
+          </div>
+
+          {/* Book Now Button */}
+          <button
+            className="bg-[#A14BFD] text-white text-4xl px-12 py-3 rounded-3xl font-[Karantina-Regular]"
+            onClick={handleBooking}
+            disabled={loading || tickets.length === 0}
+          >
+            {loading ? "Processing..." : "BOOK NOW"}
+          </button>
+        </div>
+
+      </div>
     </div>
   );
 };
