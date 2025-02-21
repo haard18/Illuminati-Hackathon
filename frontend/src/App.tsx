@@ -7,6 +7,7 @@ import SpotifyCallback from './components/Callback'
 import EventPage from './pages/EventPage'
 import Events from './pages/AllEvents'
 import Tickets from './pages/TicketPage'
+import EventForm from './pages/EventForm'
 function App() {
  
 
@@ -22,6 +23,7 @@ function App() {
           <Route path="/event/:id" element={<EventPage/>} />
           <Route path="/allevent" element={<Events/>} />
           <Route path="/ticket" element={<Tickets/>} />
+          <Route path="/form" element={<EventForm/>} />
           {/* <Route path="/about" element={<About />} /> */}
         </Routes>
      </BrowserRouter>
