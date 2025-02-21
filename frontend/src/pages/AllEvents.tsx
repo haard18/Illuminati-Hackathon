@@ -1,8 +1,8 @@
 import React from 'react';
-import Navbar from './Components/EventNavbar';
-import EventCategories from './Components/EventCategories';
-import EventSection from './Components/EventSection';
 
+import Navbar from '../components/Navbar';
+import EventCategories from '../components/AllEvents/EventCategories';
+import EventSection from '../components/AllEvents/EventSection';
 const Events = () => {
   return (
     <div className="min-h-screen bg-black">

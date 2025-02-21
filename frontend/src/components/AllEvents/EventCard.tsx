@@ -1,7 +1,7 @@
 import React from 'react';
 import { Heart } from 'lucide-react';
-import GetTicketsIcon from '../assets/GetTickets.svg'; // Ensure the path is correct
-
+// import GetTicketsIcon from '../assets/GetTickets.svg'; // Ensure the path is correct
+import GetTicketsIcon from "../../assets/GetTickets.svg"
 interface EventCardProps {
   date: string;
   artist: string;
