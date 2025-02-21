@@ -1,12 +1,26 @@
-import { useState } from 'react'
 
 import './App.css'
-import WertWidgetButton from './Components/Wert'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Home from './pages/Home'
+import Auth from './pages/Auth'
+import SpotifyCallback from './components/Callback'
+import EventPage from './pages/EventPage'
 function App() {
+ 
 
   return (
     <>
-      <WertWidgetButton />
+   
+     <BrowserRouter>
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/auth" element={<Auth/>} />
+          <Route path="callback" element={<SpotifyCallback/>} />
+          <Route path="/event" element={<EventPage/>} />
+          {/* <Route path="/about" element={<About />} /> */}
+        </Routes>
+     </BrowserRouter>
     </>
   )
 }

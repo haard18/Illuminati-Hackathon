@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch NFTs</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+</head>
+<body>
+
+    <h1>My NFTs</h1>
+    <button onclick="connectWallet()">Connect Wallet</button>
+    <p id="walletAddress"></p>
+    <div id="nftContainer"></div>
+
+    <script>
+        let web3;
+        let userAccount;
+
+        async function connectWallet() {
+            if (window.ethereum) {
+                web3 = new Web3(window.ethereum);
+                await window.ethereum.request({ method: "eth_requestAccounts" });
+                const accounts = await web3.eth.getAccounts();
+                userAccount = accounts[0];
+                document.getElementById("walletAddress").innerText = `Connected: ${userAccount}`;
+                fetchNFTs(userAccount);
+            } else {
+                alert("Please install MetaMask!");
+            }
+        }
+
+        async function fetchNFTs(walletAddress) {
+            const nftContainer = document.getElementById("nftContainer");
+            nftContainer.innerHTML = "Fetching NFTs...";
+
+            const openseaUrl = `https://testnets-api.opensea.io/api/v2/chain/sepolia/account/${walletAddress}/nfts`;
+
+            try {
+                const response = await fetch(openseaUrl);
+                const data = await response.json();
+
+                if (!data.nfts || data.nfts.length === 0) {
+                    nftContainer.innerHTML = "No NFTs found.";
+                    return;
+                }
+
+                nftContainer.innerHTML = ""; // Clear the loading text
+
+                data.nfts.forEach(nft => {
+                    const nftElement = document.createElement("div");
+                    nftElement.innerHTML = `
+                        <p><strong>${nft.name || "Unnamed NFT"}</strong></p>
+                        <p><em>${nft.description || "No description available"}</em></p>
+                        <img src="${nft.display_image_url || nft.image_url || "https://via.placeholder.com/150"}" alt="NFT Image" width="200">
+                        <p>Collection: ${nft.collection}</p>
+                        <p>Contract: ${nft.contract}</p>
+                        <p>Token ID: ${nft.identifier}</p>
+                        <p><a href="${nft.opensea_url}" target="_blank">View on OpenSea</a></p>
+                        <hr>
+                    `;
+                    nftContainer.appendChild(nftElement);
+                });
+
+            } catch (error) {
+                console.error("Error fetching NFTs:", error);
+                nftContainer.innerHTML = "Failed to fetch NFTs.";
+            }
+        }
+    </script>
+
+</body>
+</html>

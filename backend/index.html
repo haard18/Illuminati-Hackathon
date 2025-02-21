@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mint Your Ticket NFT</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+</head>
+<body>
+    <h1>Mint Your Event Ticket NFT</h1>
+    
+    <label>Event ID:</label>
+    <input type="text" id="eventId" placeholder="Enter Event ID">
+    <label>Ticket ID:</label>
+    <input type="text" id="ticketId" placeholder="Enter Ticket ID">
+    <button onclick="fetchTokenURI()">Fetch QR & Metadata</button>
+    
+    <br><br>
+    
+    <label>Token URI:</label>
+    <input type="text" id="tokenURI" placeholder="Token URI will appear here" readonly>
+    
+    <button onclick="mintTicket()">Buy Ticket (Mint NFT)</button>
+
+    <script>
+        const contractAddress = "0xF91Ae5fe0e8E51a73703dC7174bad76E4a442f6C";
+        const royaltyAddress = "0x8D536f16AC275FC14A0ce61E01Db9144D72dC400";//fetch from backend-artist
+        const backendEndpoint = "http://localhost:3000/create-ticket";
+
+        const contractABI = [
+            {
+                "inputs": [
+                    { "internalType": "string", "name": "_tokenURI", "type": "string" },
+                    { "internalType": "address", "name": "_royaltyAddress", "type": "address" }
+                ],
+                "name": "mintTicket",
+                "outputs": [],
+                "stateMutability": "payable",
+                "type": "function"
+            }
+        ];
+
+        let web3 = new Web3("https://sepolia.infura.io/v3/YOUR_INFURA_PROJECT_ID");
+        let contract = new web3.eth.Contract(contractABI, contractAddress);
+        let userAccount;
+
+        async function connectWallet() {
+            if (window.ethereum) {
+                web3 = new Web3(window.ethereum);
+                await window.ethereum.request({ method: "eth_requestAccounts" });
+                const accounts = await web3.eth.getAccounts();
+                userAccount = accounts[0];
+                contract = new web3.eth.Contract(contractABI, contractAddress);
+            } else {
+                alert("Please install MetaMask!");
+            }
+        }
+
+        async function fetchTokenURI() {
+            const eventId = document.getElementById("eventId").value;
+            const ticketId = document.getElementById("ticketId").value;
+            
+            if (!eventId || !ticketId) {
+                alert("Please enter Event ID and Ticket ID");
+                return;
+            }
+
+            try {
+                const response = await fetch(backendEndpoint, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ eventId, ticketId, userAddress: userAccount })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    document.getElementById("tokenURI").value = data.metadataIpfsUrl;
+                } else {
+                    alert("Error fetching Token URI");
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Failed to fetch Token URI");
+            }
+        }
+
+        async function mintTicket() {
+            const tokenURI = document.getElementById("tokenURI").value;
+            const mintPrice = web3.utils.toWei("0.05", "ether");
+
+            if (!tokenURI) {
+                alert("Fetch Token URI first!");
+                return;
+            }
+
+            try {
+                await contract.methods.mintTicket(tokenURI, royaltyAddress)
+                    .send({ from: userAccount, value: mintPrice });
+                alert("NFT Minted Successfully!");
+            } catch (error) {
+                console.error(error);
+                alert("Transaction Failed!");
+            }
+        }
+
+        connectWallet();
+    </script>
+</body>
+</html>
