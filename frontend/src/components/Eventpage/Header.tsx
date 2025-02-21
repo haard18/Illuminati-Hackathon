@@ -21,13 +21,15 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   return (
     <div
-      className="relative bg-black flex flex-col  justify-end p-6 text-white h-[470px] font-[Karantina-light] tracking-wider"
+      className="relative h-[400px] w-full overflow-hidden bg-black flex flex-col  justify-end p-6 text-white font-[Karantina-light] tracking-wider"
       style={{
         backgroundImage: `url(${imageUrl})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent"></div>
+
       {/* Back Button */}
       <button
         onClick={onBack}
@@ -45,7 +47,7 @@ const Header: React.FC<HeaderProps> = ({
       {/* Bottom Left Content */}
       <div className="pb-4 px-4">
         {/* Title */}
-        <h1 className="text-7xl font-bold">{title}</h1>
+        <h1 className="text-7xl text-white font-bold">{title}</h1>
 
         {/* Event Details */}
         <div className="mt-2 text-4xl flex flex-wrap gap-x-6 opacity-80">
@@ -54,11 +56,11 @@ const Header: React.FC<HeaderProps> = ({
             <p>{date}</p>
           </div>
           <div className="flex flex-row items-center gap-x-2">
-            <FaClock size={20}/>
+            <FaClock size={20} />
             <p>{time}</p>
           </div>
           <div className="flex flex-row items-center gap-x-2">
-            <FaLocationDot size={20}/>
+            <FaLocationDot size={20} />
             <p>{location}</p>
           </div>
         </div>
