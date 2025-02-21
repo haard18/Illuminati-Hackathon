@@ -1,1 +1,36 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+@font-face {
+  font-family: 'Karantina-bold';
+  src: url('./assets/Fonts/Karantina-Bold.ttf')format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Karantina-light';
+  src: url('./assets/Fonts/Karantina-Light.ttf')format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Karantina-regular';
+  src: url('./assets/Fonts/Karantina-Regular.ttf')format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@theme{
+  --color-t-purple: #A14BFD;
+  /* --color-t-red: #FF895E */
+  --color-t-orange: #FF895E;
+  --color-t-red: #FF5C3F;
+  --color-t-yellow: #FFE992;
+  --color-t-green: #3A9440;
+  --color-t-pink: #FC75AB;
+}
+.bg-hero {
+  background-image: url('../src/assets/Images/hero.png'); 
+  background-size: cover;
+  background-position: center;
+}
+.body{
+  font-family: 'Karantina-regular';
+}
