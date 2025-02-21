@@ -1,42 +1,47 @@
-import React from "react";
-import t1 from "../assets/ticket1.jpeg";
-import t2 from "../assets/ticket2.jpeg";
-import t3 from "../assets/ticket3.jpeg";
-import t4 from "../assets/ticket4.jpeg";
+import React, { useEffect, useState } from "react";
 import { ChevronRight, ArrowUpRight } from "lucide-react";
-
-const events = [
-  { image: t1, title: "INDIA X COLDPLAY" },
-  { image: t2, title: "DILUMINATI TOUR" },
-  { image: t3, title: "ONE DIRECTION" },
-  { image: t4, title: "ARIJIT SINGH" },
-];
+import axios from "axios";
 
 const EventCarousel: React.FC = () => {
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/events/getAllEvents");
+        setEvents(response.data.events);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+    fetchEvents();
+  }, []);
+
   return (
     <div className="bg-black p-6 flex flex-col items-center mt-16">
       {/* Event Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-60 gap-y-14">
         {events.map((event, index) => (
           <div
-            key={index}
-            className="relative flex items-center bg-[#FFE992] p-4 rounded-4xl shadow-lg w-[380px] h-[120px]"
+            key={event._id}
+            className="relative flex items-center bg-[#FFE992] p-4 rounded-4xl shadow-lg w-[380px] h-[150px]"
           >
             <img
-              src={event.image}
-              alt={event.title}
-              className="w-48 h-26 rounded-3xl object-cover"
+              src={event.coverImage}
+              alt={event.artist.name}
+              className="w-48 h-28 rounded-3xl object-cover"
             />
             <div className="ml-3 flex-1">
-              <h3 className="text-4xl font-['Karantina-bold'] text-black leading-tight">
-                {event.title.split(" ").slice(0, 2).join(" ")} <br />
-                {event.title.split(" ").slice(2).join(" ")}
+              <h3 className="text-3xl font-bold text-black leading-tight">
+                {event.artist.name}
               </h3>
+              <p className="text-black text-sm">{new Date(event.date).toDateString()}</p>
+              <p className="text-black text-sm">{event.venue}</p>
             </div>
 
             {/* GET TICKETS Button */}
             <button className="absolute -top-8 -right-6">
-            <svg
+              <svg
                 width="170"
                 height="54"
                 viewBox="0 0 222 95"
@@ -53,16 +58,16 @@ const EventCarousel: React.FC = () => {
                   dominantBaseline="middle"
                   textAnchor="middle"
                   fill="white"
-                  fontSize="44"
+                  fontSize="20"
                   fontWeight="bold"
-                  fontFamily="Karantina-bold"
+                  fontFamily="Arial"
                 >
                   GET TICKETS
                 </text>
               </svg>
             </button>
 
-            {/* New Button: 50% Inside and 50% Outside */}
+            {/* More Details Button */}
             <button
               className="absolute top-1/2 right-0 transform -translate-y-1/2 translate-x-1/2 bg-[#FF895E] hover:bg-gray-900 hover:text-white text-black p-2 rounded-full outline-none focus:outline-none"
             >
@@ -73,34 +78,12 @@ const EventCarousel: React.FC = () => {
       </div>
 
       {/* View All Events Button */}
-      <div className="w-full flex justify-start mt-10 pl-52"> {/* Adjusted alignment and padding */}
+      <div className="w-full flex justify-start mt-10 pl-52">
         <button className="flex items-center text-white text-xl font-bold px-4 py-2 rounded-lg hover:scale-105 transition-transform duration-300">
-          {/* Calendar Icon with Star */}
-          <svg
-            width="40"
-            height="40"
-            viewBox="0 0 60 60"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="mr-2"
-          >
-            <path
-              d="M52.5 11.25C52.5 10.2554 52.1049 9.30161 51.4016 8.59835C50.6984 7.89509 49.7446 7.5 48.75 7.5H41.25V3.75H37.5V7.5H22.5V3.75H18.75V7.5H11.25C10.2554 7.5 9.30161 7.89509 8.59835 8.59835C7.89509 9.30161 7.5 10.2554 7.5 11.25V48.75C7.5 49.7446 7.89509 50.6984 8.59835 51.4016C9.30161 52.1049 10.2554 52.5 11.25 52.5H18.75V48.75H11.25V11.25H18.75V15H22.5V11.25H37.5V15H41.25V11.25H48.75V22.5H52.5V11.25Z"
-              fill="white"
-            />
-            <path
-              d="M39.375 28.125L44.1544 37.3837L54.375 38.8669L46.875 46.0744L48.75 56.25L39.375 51.4462L30 56.25L31.875 46.0744L24.375 38.8669L34.875 37.3837L39.375 28.125Z"
-              fill="white"
-            />
-          </svg>
-
-          {/* Text */}
-          <span className="text-white text-5xl font-['Karantina-light']">
+          <ArrowUpRight className="text-white ml-1" size={28} />
+          <span className="text-white text-5xl font-light ml-2">
             View All <span className="text-purple-500">Events</span>
           </span>
-
-          {/* Arrow Icon */}
-          <ArrowUpRight className="text-white ml-1" size={28} />
         </button>
       </div>
     </div>

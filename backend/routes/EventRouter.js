@@ -79,21 +79,17 @@ Eventrouter.post("/addEvent", async (req, res) => {
   }
 });
 
-
-
-
-Eventrouter.get("/getAllEvents",async(req,res)=>{
-  try{
-    const events=await Event.find().populate({
+Eventrouter.get("/getAllEvents", async (req, res) => {
+  try {
+    const events = await Event.find().populate({
       path: 'artist',
-      select: '-password -email -events -spotifyUrl -createdAt -updatedAt -__v' // Exclude sensitive fields
-    });;
-    res.status(200).json({events});
-  }catch(error){
-    res.status(500).json({error:error.message});
+      select: '-password -email -events -spotifyUrl -updatedAt' // Excluded -createdAt and -__v
+    });
+    res.status(200).json({ events });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-})
-
+});
 
 // Get available tickets for an event
 Eventrouter.get("/:eventId/available-tickets", async (req, res) => {
