@@ -1,14 +1,16 @@
 import React from 'react';
 
 import TicketNavbar from '../components/Ticket/TicketNavbar';
+import TicketComponent from '../components/Ticket/Ticketstatictext';
 
-const Tickts = () => {
+const Tickets = () => {
   return (
     <div className="min-h-screen bg-black">
       < TicketNavbar/>
+      <TicketComponent/>
     </div>
   );
 };
 
 
-export default TicketNavbar;
+export default Tickets;

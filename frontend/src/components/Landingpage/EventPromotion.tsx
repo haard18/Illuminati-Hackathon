@@ -1,4 +1,3 @@
-import React from 'react';
 import camera from '../../assets/camera.png';
 
 const EventPromotion = () => {
