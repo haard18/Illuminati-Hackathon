@@ -46,6 +46,10 @@ const eventSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  coverImage: {
+    type: String,
+    required: true,
+  },
 }, { timestamps: true });
 
 
