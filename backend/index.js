@@ -69,7 +69,7 @@ async function uploadFileToIPFS(buffer, fileName, fileType) {
  * Route for creating a ticket and metadata.
  */
 app.post("/create-ticket", async (req, res) => {
-  const { eventId, ticketId, userAddress, quantity } = req.body;
+  const {  userAddress, quantity,eventName,eventDate,eventLocation } = req.body;
   //call the concert database
   // coldplayConcert = { date,time,location,seatingtickets=300, standingtickets=200, vip=100, vvip=50}
   // concert.standingtickets==0;
@@ -79,16 +79,13 @@ app.post("/create-ticket", async (req, res) => {
   //
   //
   try {
-    if (!eventId || !ticketId || !userAddress || !quantity) {
+    if ( !userAddress || !quantity || !eventName || !eventDate || !eventLocation ) {
       return res.status(400).json({ error: "Missing required fields" });
     }
-    const event = await EventModel.findById(eventId);
-    if (!event) {
-      return res.status(400).json({ error: "Event not found" });
-    }
+    
     // Prepare QR code data
-    const qrData = `eventName:${event.name}-eventId:${eventId}-ticketId:${ticketId}-user:${userAddress}-quantity:${quantity}`;
-    const qrFileName = `ticket-${ticketId}.png`;
+    const qrData = `eventName:${eventName}-user:${userAddress}-quantity:${quantity}-eventDate:${eventDate}-eventLocation:${eventLocation}`;
+    const qrFileName = `ticket-${eventName}.png`;  
 
     // Generate QR code as Buffer
     const qrBuffer = await generateQRCodeAsBlob(qrData);
@@ -100,18 +97,17 @@ app.post("/create-ticket", async (req, res) => {
 
     // Prepare metadata JSON
     const metadata = {
-      name: `Event Ticket #${ticketId}`,
-      description: `This is a ticket for Event ID: ${eventId}`,
+      name: `Event Ticket #${userAddress}`,
+      description: `This is a ticket for Event ${eventName}`,
       image: `ipfs://${qrIpfsCid}`,
       attributes: [
-        { trait_type: "Event ID", value: eventId },
-        { trait_type: "Ticket ID", value: ticketId },
+        { trait_type: "Event Name", value: eventName },
         { trait_type: "User Address", value: userAddress },
       ],
     };
 
     const metadataBuffer = Buffer.from(JSON.stringify(metadata));
-    const metadataFileName = `ticket-${ticketId}.json`;
+    const metadataFileName = `ticket-${userAddress}.json`;
 
     // Upload metadata JSON to IPFS
     const metadataIpfsCid = await uploadFileToIPFS(

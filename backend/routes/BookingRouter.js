@@ -78,16 +78,41 @@ Bookingrouter.post("/makebooking", authenticateUser, async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 });
-Bookingrouter.get('/getMyBookings',authenticateUser,async(req,res)=>{
-  try{
-    const userId=req.userId;
-    const bookings=await bookingModel.find({buyer:userId});
-    return res.status(200).json({bookings});
-  }catch(error){
+Bookingrouter.get('/getMyBookings', authenticateUser, async (req, res) => {
+  try {
+    const userId = req.userId;
+    const bookings = await bookingModel.find({ buyer: userId }).populate("event");
+
+    const filteredBookings = bookings.map(booking => ({
+      bookingId: booking._id,
+      status: booking.status,
+      artistWalletAddress: booking.event.artistWalletAddress,
+      coverImage: booking.event.coverImage,
+      event: {
+        id: booking.event._id,
+        type: booking.event.type,
+        image: booking.event.image,
+        artistWalletAddress: booking.event.artistWalletAddress,
+        date: booking.event.date,
+        standTicket:booking.event.standTicket,
+        vvipTicket:booking.event.vvipTicket,
+        earlyBird:booking.event.earlyBird,
+        venue: booking.event.venue,
+        description: booking.event.description
+      },
+      tickets: booking.tickets.map(ticket => ({
+        type: ticket.type,
+        quantity: ticket.quantity
+      }))
+    }));
+
+    return res.status(200).json({ bookings: filteredBookings });
+  } catch (error) {
     console.error("Error getting bookings:", error);
-    return res.status(500).json({error:error.message});
+    return res.status(500).json({ error: error.message });
   }
-})
+});
+
 Bookingrouter.post('/updateBooking/:bookingId',async(req,res)=>{
     try{
       const {bookingId}=req.params;

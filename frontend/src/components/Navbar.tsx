@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
-  const [walletAddress, setWalletAddress] = useState("");
-  const connectWallet = async () => {
+const Navbar: React.FC = () => {
+  const [walletAddress, setWalletAddress] = useState<string>("");
+  const connectWallet = async (): Promise<void> => {
     // @ts-expect-error: window.ethereum is not defined
     if (window.ethereum) {
       try {
         // @ts-ignore
-        const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+        const accounts: string[] = await window.ethereum.request({ method: "eth_requestAccounts" });
 
-        const address = accounts[0];
+        const address: string = accounts[0];
         setWalletAddress(address);
         localStorage.setItem("walletAddress", address);
       } catch (error) {
