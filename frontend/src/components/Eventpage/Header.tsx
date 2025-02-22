@@ -50,7 +50,7 @@ const Header: React.FC<HeaderProps> = ({
         <h1 className="text-7xl text-white font-bold">{title}</h1>
 
         {/* Event Details */}
-        <div className="mt-2 text-4xl flex flex-wrap gap-x-6 opacity-80">
+        <div className="mt-2 text-3xl flex flex-wrap gap-x-6 opacity-80 font-['Kanit-Regular']">
           <div className="flex flex-row items-center gap-x-2">
             <FaCalendarDays size={20} />
             <p>{date}</p>
