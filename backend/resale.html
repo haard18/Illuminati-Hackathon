@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Resale Marketplace</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.6.1/ethers.umd.min.js"></script>
+</head>
+<body>
+    <h1>Ticket Resale Marketplace</h1>
+    
+    <button onclick="connectWallet()">Connect Wallet</button>
+    <p id="walletAddress">Not connected</p>
+
+    <h2>List a Ticket</h2>
+    <input type="number" id="tokenId" placeholder="Ticket ID">
+    <input type="number" id="eventTimestamp" placeholder="Event Timestamp (Unix)">
+    <input type="number" id="originalPrice" placeholder="Original Price (ETH)">
+    <input type="text" id="artist" placeholder="Artist Address">
+    <button onclick="listTicket()">List Ticket</button>
+
+    <h2>Buy a Ticket</h2>
+    <input type="number" id="buyTokenId" placeholder="Ticket ID to Buy">
+    <button onclick="buyTicket()">Buy Ticket</button>
+
+    <h2>Active Listings</h2>
+    <button onclick="fetchListings()">Refresh Listings</button>
+    <ul id="listings"></ul>
+
+    <script>
+        const CONTRACT_ADDRESS = "0x6DEe46F3903a6D735f629A2a9e82BCD6E7114D0f"; // Replace with your deployed contract
+        const CONTRACT_ABI = [
+            "function listTicket(uint256 tokenId, uint256 eventTimestamp, uint256 originalPrice, address artist)",
+            "function buyTicket(uint256 tokenId)",
+            "function getListing(uint256 tokenId) view returns (uint256 price)",
+            "function getAllListings() view returns (uint256[], address[], uint256[])"
+        ];
+        
+        let provider, signer, contract;
+
+        async function connectWallet() {
+            if (window.ethereum) {
+                provider = new ethers.BrowserProvider(window.ethereum);
+                await provider.send("eth_requestAccounts", []);
+                signer = await provider.getSigner();
+                document.getElementById("walletAddress").innerText = "Connected: " + (await signer.getAddress());
+                contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+            } else {
+                alert("MetaMask is required!");
+            }
+        }
+
+        async function listTicket() {
+            const tokenId = document.getElementById("tokenId").value;
+            const eventTimestamp = document.getElementById("eventTimestamp").value;
+            const originalPrice = ethers.parseEther(document.getElementById("originalPrice").value);
+            const artist = document.getElementById("artist").value;
+
+            try {
+                const tx = await contract.listTicket(tokenId, eventTimestamp, originalPrice, artist);
+                await tx.wait();
+                alert("Ticket listed successfully!");
+            } catch (error) {
+                console.error(error);
+                alert("Failed to list ticket!");
+            }
+        }
+
+        async function buyTicket() {
+            const tokenId = document.getElementById("buyTokenId").value;
+            try {
+                const listing = await contract.getListing(tokenId);
+                const price = listing.price;
+
+                const tx = await contract.buyTicket(tokenId, { value: price });
+                await tx.wait();
+                alert("Ticket purchased successfully!");
+            } catch (error) {
+                console.error(error);
+                alert("Failed to buy ticket!");
+            }
+        }
+
+        async function fetchListings() {
+            try {
+                const listingsData = await contract.getAllListings();
+                const listingsList = document.getElementById("listings");
+                listingsList.innerHTML = "";
+
+                for (let i = 0; i < listingsData[0].length; i++) {
+                    let listItem = document.createElement("li");
+                    listItem.innerText = `Token ID: ${listingsData[0][i]}, Seller: ${listingsData[1][i]}, Price: ${ethers.formatEther(listingsData[2][i])} ETH`;
+                    listingsList.appendChild(listItem);
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Failed to fetch listings!");
+            }
+        }
+    </script>
+</body>
+</html>

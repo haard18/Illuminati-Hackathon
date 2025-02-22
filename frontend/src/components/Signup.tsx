@@ -10,6 +10,7 @@ interface SignupProps {
 
 const Signup: React.FC<SignupProps> = ({ userName, email }) => {
   const [password, setPassword] = useState("");
+  const [artistemail, setArtistEmail] = useState("");
   const [walletAddress, setWalletAddress] = useState("");
   const [spotifyUrl, setSpotifyUrl] = useState("");
   const [userType, setUserType] = useState("user"); // "user" or "artist"
@@ -140,9 +141,9 @@ const Signup: React.FC<SignupProps> = ({ userName, email }) => {
           <input
             type="email"
             value={email}
-            disabled={!isLogin}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setArtistEmail(e.target.value)}
             className="w-full p-3 border border-gray-300 rounded-lg mb-3 bg-[#9C9A9A] text-white placeholder-white/70 focus:outline-none focus:border-[#1DB954]"
+            disabled={isLogin}
           />
 
           {/* Password Field */}
