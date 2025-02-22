@@ -9,6 +9,7 @@ import Events from './pages/AllEvents'
 import Tickets from './pages/TicketPage'
 import EventForm from './pages/EventForm'
 import Dashboard from './pages/Dashboard'
+import StadiumSeating from './components/StadiumSeating'
 function App() {
  
 
