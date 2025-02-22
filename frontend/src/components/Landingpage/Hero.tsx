@@ -17,7 +17,7 @@ const Hero = () => {
           >
             FAITH <span className="text-[#FF4A2B]">IN</span> FUTURE
           </p>
-          <p className="text-xl mt-[-5%]">
+          <p className="text-xl mt-[-5%] font-[Kanit-Regular]">
             Louis Tomlinson was announced as part of the lineup <br /> for
             Lollapalooza India 2025.
           </p>
