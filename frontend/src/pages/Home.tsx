@@ -9,6 +9,7 @@ import EventPromotion from "../components/Landingpage/EventPromotion";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
+import InfiniteScrollStrip from "../components/Landingpage/InfiniteCarousel";
 
 const Home = () => {
   const navigate = useNavigate();

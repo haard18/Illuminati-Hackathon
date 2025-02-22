@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ChevronRight } from "lucide-react";
 import coldplay from "../assets/coldplay.jpeg";
+import InfiniteScrollStrip from "./Landingpage/InfiniteCarousel";
 
 const events = [
   {
@@ -27,13 +28,15 @@ export default function Landing2() {
   };
 
   return (
+    <>
+    <InfiniteScrollStrip/>
     <div className="relative w-full h-96">
       {/* Background Image Container */}
       <div className="overflow-hidden rounded-4xl h-full" style={{borderRadius:'0px 0px 50px 50px'}}>
         <img
           src={events[current].image}
           alt={events[current].title}
-          className="w-full h-96 object-cover"x
+          className="w-full h-96 object-cover"
         />
         {/* Purple overlay */}
         <div className="absolute inset-0 bg-purple-600/30 " style={{borderRadius:'0px 0px 50px 50px'}} />
@@ -132,5 +135,6 @@ export default function Landing2() {
         <ChevronRight size={32} />
       </button>
     </div>
+    </>
   );
 }

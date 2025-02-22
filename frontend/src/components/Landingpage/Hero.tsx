@@ -33,10 +33,7 @@ const Hero = () => {
         <div className="mt-[-30%] flex  justify-end items-end">
           <LinearCarousel />
         </div>
-        <div className="mt-[-6%] flex  justify-end items-end">
-        <InfiniteScrollStrip />
-        </div>
-      
+        
       
       </div>
       
