@@ -4,7 +4,7 @@ import camera from '../../assets/camera.png';
 const EventPromotion = () => {
     const navigate = useNavigate();
     return (
-        <div className="relative w-full h-screen bg-black pt-70">
+        <div className="relative w-full h-screen bg-black pt-70 mb-20">
             {/* Orange banner section */}
             <div className="relative w-full h-64 bg-orange-600">
                 {/* Camera illustration */}

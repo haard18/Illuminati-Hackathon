@@ -31,16 +31,13 @@ const Home = () => {
       <div>
         <Hero />
       </div>
-      <div className="bg-black h-[800px] pt-20 mt-[-18%]">
+      <div className="bg-black pt-20 mt-[-18%]">
         <Landing2 />
         <EventCarousel/>
         <RollingGallery autoplay={true}/>
-        <div className="flex justify-center items-center bg-black">
-          <Aboutus />
-        </div>
+        <Aboutus />
         <EventPromotion/>
         <Footer/>
-        
       </div>
     </>
   );
