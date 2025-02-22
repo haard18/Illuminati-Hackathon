@@ -1,4 +1,3 @@
-
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
@@ -9,6 +8,9 @@ import Events from './pages/AllEvents'
 import Tickets from './pages/TicketPage'
 import EventForm from './pages/EventForm'
 import Dashboard from './pages/Dashboard'
+import StadiumSeating from './components/StadiumSeating'
+import PurchasedTickets from './pages/PurchasedTickets'
+
 import StadiumSeating from './components/StadiumSeating'
 function App() {
  
@@ -28,6 +30,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard/>}/>
           <Route path="/form" element={<EventForm/>} />
           <Route path='/stadium' element={<StadiumSeating/>}/>
+          <Route path="/purchased-tickets" element={<PurchasedTickets/>} />
           {/* <Route path="/about" element={<About />} /> */}
         </Routes>
      </BrowserRouter>

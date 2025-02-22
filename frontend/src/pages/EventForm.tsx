@@ -1,7 +1,86 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Clock, Calendar, ChevronUp, ChevronDown } from 'lucide-react';
 
 const EventForm = () => {
+  const [formData, setFormData] = useState({
+    type: '',
+    date: '',
+    venue: '',
+    artistId: '',
+    description: '',
+    standTicket: { price: '', capacity: '' },
+    vvipTicket: { price: '', capacity: '' },
+    earlyBird: { price: '', capacity: '' },
+    ticketOpeningDate: '',
+    ticketClosingDate: '',
+    coverImage: '',
+  });
+
+  const [responseMessage, setResponseMessage] = useState('');
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => {
+      // Handle nested fields
+      if (name.includes('.')) {
+        const [parent, child] = name.split('.');
+        return {
+          ...prevData,
+          [parent]: {
+            ...prevData[parent],
+            [child]: value,
+          },
+        };
+      }
+      return {
+        ...prevData,
+        [name]: value,
+      };
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Check for missing required fields
+    const requiredFields = [
+      'type', 'date', 'venue', 'artistId',
+      'standTicket.price', 'standTicket.capacity',
+      'vvipTicket.price', 'vvipTicket.capacity',
+      'earlyBird.price', 'earlyBird.capacity',
+      'ticketOpeningDate', 'ticketClosingDate', 'coverImage'
+    ];
+
+    const missingFields = requiredFields.filter(field => {
+      const value = field.includes('.') ? field.split('.').reduce((obj, key) => obj[key], formData) : formData[field];
+      return !value;
+    });
+
+    if (missingFields.length > 0) {
+      setResponseMessage(`Error: Missing required fields - ${missingFields.join(', ')}`);
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:3000/events/addEvent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        setResponseMessage(result.message);
+      } else {
+        setResponseMessage(`Error: ${result.error}`);
+      }
+    } catch (error) {
+      setResponseMessage(`Error: ${error.message}`);
+    }
+  };
+
   return (
     <div
       className="h-screen flex flex-col"
@@ -63,23 +142,31 @@ const EventForm = () => {
           </h1>
 
           {/* Form Content */}
-          <form className="space-y-4 font-[Kanit-Regular]">
+          <form onSubmit={handleSubmit} className="space-y-4 font-[Kanit-Regular]">
             {/* Event Name */}
             <div className="space-y-1">
-              <label className="block text-gray-300">Event Name</label>
-              <input
-                type="text"
-                placeholder="Enter Your Event Name Here"
+              <label className="block text-gray-300">Event Type</label>
+              <select
+                name="type"
                 className="w-full px-4 py-2 bg-gray-700/50 rounded-lg text-white placeholder-gray-400"
-              />
+                value={formData.type}
+                onChange={handleChange}
+              >
+                <option value="">Select Event Type</option>
+                <option value="concerts">Concert</option>
+                <option value="comedy">Comedy</option>
+              </select>
             </div>
 
             {/* Description */}
             <div className="space-y-1">
               <label className="block text-gray-300">Add Description</label>
               <textarea
+                name="description"
                 placeholder="Add Your Event Description Here"
                 className="w-full px-4 py-2 bg-gray-700/50 rounded-lg text-white placeholder-gray-400 resize-none h-16 inner-shadow"
+                value={formData.description}
+                onChange={handleChange}
               />
             </div>
 
@@ -90,35 +177,41 @@ const EventForm = () => {
                 <label className="block text-gray-300">Date</label>
                 <div className="relative">
                   <input
-                    type="text"
-                    defaultValue="March 15, 2025"
+                    type="date"
+                    name="date"
                     className="w-full px-4 py-2 bg-gray-700/50 rounded-lg text-white pr-12"
+                    value={formData.date}
+                    onChange={handleChange}
                   />
                   <Calendar className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
                 </div>
               </div>
 
-              {/* Time */}
+              {/* Ticket Opening Date */}
               <div className="space-y-1">
-                <label className="block text-gray-300">Time</label>
+                <label className="block text-gray-300">Ticket Opening Date</label>
                 <div className="relative">
                   <input
-                    type="text"
-                    defaultValue="6:00 PM"
+                    type="date"
+                    name="ticketOpeningDate"
                     className="w-full px-4 py-2 bg-gray-700/50 rounded-lg text-white pr-12"
+                    value={formData.ticketOpeningDate}
+                    onChange={handleChange}
                   />
                   <Clock className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
                 </div>
               </div>
 
-              {/* Duration */}
+              {/* Ticket Closing Date */}
               <div className="space-y-1">
-                <label className="block text-gray-300">Duration</label>
+                <label className="block text-gray-300">Ticket Closing Date</label>
                 <div className="relative">
                   <input
-                    type="text"
-                    defaultValue="3h 45m"
+                    type="date"
+                    name="ticketClosingDate"
                     className="w-full px-4 py-2 bg-gray-700/50 rounded-lg text-white pr-12"
+                    value={formData.ticketClosingDate}
+                    onChange={handleChange}
                   />
                   <div className="absolute right-4 top-1/2 transform -translate-y-1/2 space-y-1">
                     <ChevronUp className="h-4 w-4 text-gray-400" />
@@ -133,43 +226,103 @@ const EventForm = () => {
               <label className="block text-gray-300">Location</label>
               <input
                 type="text"
+                name="venue"
                 placeholder="Choose Your Event Location Here"
                 className="w-full px-4 py-2 bg-gray-700/50 rounded-lg text-white placeholder-gray-400"
+                value={formData.venue}
+                onChange={handleChange}
+              />
+            </div>
+
+            {/* Artist ID */}
+            <div className="space-y-1">
+              <label className="block text-gray-300">Artist ID</label>
+              <input
+                type="text"
+                name="artistId"
+                placeholder="Enter Artist ID"
+                className="w-full px-4 py-2 bg-gray-700/50 rounded-lg text-white placeholder-gray-400"
+                value={formData.artistId}
+                onChange={handleChange}
               />
             </div>
 
             {/* Ticket Prices and Attachments Row */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-              {/* Upload Attachments */}
+              {/* Cover Image URL */}
               <div>
-                <label className="block text-gray-300 mb-1">Upload Attachments</label>
-                <button className="w-full px-4 py-2 bg-gray-700/50 rounded-lg text-gray-400 text-left">
-                  Select Files
-                </button>
+                <label className="block text-gray-300 mb-1">Cover Image URL</label>
+                <input
+                  type="text"
+                  name="coverImage"
+                  placeholder="Cover Image URL"
+                  className="w-full px-4 py-2 bg-gray-700/50 rounded-lg text-gray-400 text-left"
+                  value={formData.coverImage}
+                  onChange={handleChange}
+                />
               </div>
 
-              {/* General Ticket Price */}
+              {/* General Ticket Price and Capacity */}
               <div>
-                <label className="block text-gray-300 mb-1">General Ticket Price</label>
-                <button className="w-full px-4 py-2 bg-gray-700/50 rounded-lg text-gray-400 text-left">
-                  Select Files
-                </button>
+                <label className="block text-gray-300 mb-1">General Ticket</label>
+                <input
+                  type="number"
+                  name="standTicket.price"
+                  placeholder="Price"
+                  className="w-full px-4 py-2 bg-gray-700/50 rounded-lg text-gray-400 text-left mb-2"
+                  value={formData.standTicket.price}
+                  onChange={handleChange}
+                />
+                <input
+                  type="number"
+                  name="standTicket.capacity"
+                  placeholder="Capacity"
+                  className="w-full px-4 py-2 bg-gray-700/50 rounded-lg text-gray-400 text-left"
+                  value={formData.standTicket.capacity}
+                  onChange={handleChange}
+                />
               </div>
 
-              {/* Fanpit Ticket Price */}
+              {/* Fanpit Ticket Price and Capacity */}
               <div>
-                <label className="block text-gray-300 mb-1">Fanpit Ticket Price</label>
-                <button className="w-full px-4 py-2 bg-gray-700/50 rounded-lg text-gray-400 text-left">
-                  Select Files
-                </button>
+                <label className="block text-gray-300 mb-1">Fanpit Ticket</label>
+                <input
+                  type="number"
+                  name="earlyBird.price"
+                  placeholder="Price"
+                  className="w-full px-4 py-2 bg-gray-700/50 rounded-lg text-gray-400 text-left mb-2"
+                  value={formData.earlyBird.price}
+                  onChange={handleChange}
+                />
+                <input
+                  type="number"
+                  name="earlyBird.capacity"
+                  placeholder="Capacity"
+                  className="w-full px-4 py-2 bg-gray-700/50 rounded-lg text-gray-400 text-left"
+                  value={formData.earlyBird.capacity}
+                  onChange={handleChange}
+                />
               </div>
 
-              {/* V.I.P Ticket Price */}
+              {/* V.I.P Ticket Price and Capacity */}
               <div>
-                <label className="block text-gray-300 mb-1">V.I.P Ticket Price</label>
-                <button className="w-full px-4 py-2 bg-gray-700/50 rounded-lg text-gray-400 text-left">
-                  Select Files
-                </button>
+                <label className="block text-gray-300 mb-1">V.I.P Ticket</label>
+                <input
+                  type="number"
+                  name="vvipTicket.price"
+                  placeholder="Price"
+                  className="w-full px-4 py-2 bg-gray-700/50 rounded-lg text-gray-400 text-left mb-2"
+                  value={formData.vvipTicket.price}
+                  onChange={handleChange}
+                />
+                <input
+                  type="number"
+                  name="vvipTicket.capacity"
+                  placeholder="Capacity"
+                  className="w-full px-4 py-2 bg-gray-700/50 rounded-lg text-gray-400 text-left"
+                  value={formData.vvipTicket.capacity}
+                  onChange={handleChange}
+                />
               </div>
             </div>
 
@@ -189,6 +342,11 @@ const EventForm = () => {
               </button>
             </div>
           </form>
+
+          {/* Response Message */}
+          {responseMessage && (
+            <div className="mt-4 text-white">{responseMessage}</div>
+          )}
         </div>
       </div>
 

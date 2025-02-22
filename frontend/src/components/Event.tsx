@@ -35,7 +35,7 @@ const Events: React.FC = () => {
             </div>
 
             {/* GET TICKETS Button */}
-            <button className="absolute -top-8 -right-6">
+            <button className="absolute -top-8 font-['Karantina-bold'] -right-6">
             <svg
                 width="170"
                 height="54"

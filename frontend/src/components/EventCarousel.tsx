@@ -46,11 +46,11 @@ const EventCarousel: React.FC = () => {
               className="w-48 h-28 rounded-3xl object-cover"
             />
             <div className="ml-3 flex-1">
-              <h3 className="text-3xl font-bold text-black leading-tight">
+              <h3 className="text-3xl font-bold font-['Karantina-bold'] text-black leading-tight">
                 {event.artist.name}
               </h3>
-              <p className="text-black text-sm">{new Date(event.date).toDateString()}</p>
-              <p className="text-black text-sm">{event.venue}</p>
+              <p className="text-black text-sm font-['Kanit']">{new Date(event.date).toDateString()}</p>
+              <p className="text-black text-sm font-['Kanit']">{event.venue}</p>
             </div>
 
             {/* GET TICKETS Button */}
@@ -72,9 +72,10 @@ const EventCarousel: React.FC = () => {
                   dominantBaseline="middle"
                   textAnchor="middle"
                   fill="white"
-                  fontSize="20"
+                  className="font-['Karantina-bold']"
+                  fontSize="30"
                   fontWeight="bold"
-                  fontFamily="Arial"
+                  // fontFamily="Arial"
                 >
                   GET TICKETS
                 </text>
@@ -93,7 +94,7 @@ const EventCarousel: React.FC = () => {
       </div>
 
       {/* View All Events Button */}
-      <div className="w-full flex justify-start mt-10 pl-52">
+      <div className="w-full flex justify-start mt-10 pl-52 font-['Karantina-bold']">
         <button className="flex items-center text-white text-xl font-bold px-4 py-2 rounded-lg hover:scale-105 transition-transform duration-300">
           <ArrowUpRight className="text-white ml-1" size={28} />
           <span className="text-white text-5xl font-light ml-2">

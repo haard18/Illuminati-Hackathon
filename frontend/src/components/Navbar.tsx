@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
+import logo from "../assets/logo2.png";
 const Navbar: React.FC = () => {
   const [walletAddress, setWalletAddress] = useState<string>("");
   const connectWallet = async (): Promise<void> => {
@@ -29,11 +29,11 @@ const Navbar: React.FC = () => {
     >
       {/* Brand Name */}
       <Link to="/" className="text-xl font-bold text-white">
-        Brand
+        <img src={logo} alt="logo" className="w-40" />
       </Link>
 
       {/* Navigation Links */}
-      <ul className="flex space-x-6 gap-10 items-center">
+      <ul className="flex space-x-6 text-[25px] gap-10 items-center">
         <li>
           <Link to="/" className="text-white hover:text-[#FF895E]">
             Home
@@ -44,13 +44,9 @@ const Navbar: React.FC = () => {
             Events
           </Link>
         </li>
+   
         <li>
-          <Link to="/" className="text-white hover:text-[#FF895E]">
-            Calendar
-          </Link>
-        </li>
-        <li>
-          <Link to="/profile" className="text-white hover:text-[#FF895E]">
+          <Link to="/dashboard" className="text-white hover:text-[#FF895E]">
             Profile
           </Link>
         </li>
