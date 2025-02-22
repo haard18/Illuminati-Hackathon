@@ -11,7 +11,7 @@ import Dashboard from './pages/Dashboard'
 import StadiumSeating from './components/StadiumSeating'
 import PurchasedTickets from './pages/PurchasedTickets'
 
-import StadiumSeating from './components/StadiumSeating'
+// import StadiumSeating from './components/StadiumSeating'
 function App() {
  
 
