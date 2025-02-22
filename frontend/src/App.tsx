@@ -26,6 +26,7 @@ function App() {
           <Route path="/ticket" element={<Tickets/>} />
           <Route path="/dashboard" element={<Dashboard/>}/>
           <Route path="/form" element={<EventForm/>} />
+          <Route path='/stadium' element={<StadiumSeating/>}/>
           {/* <Route path="/about" element={<About />} /> */}
         </Routes>
      </BrowserRouter>

@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import camera from '../../assets/camera.png';
 
 const EventPromotion = () => {
+    const navigate = useNavigate();
     return (
         <div className="relative w-full h-screen bg-black pt-70">
             {/* Orange banner section */}
@@ -39,9 +41,13 @@ const EventPromotion = () => {
                             <rect x="454" y="78.2842" width="368.902" height="78.2271" rx="39.1135" transform="rotate(180 454 78.2842)" fill="#FFE992"/>
                             <path d="M0 78L113 0V78H0Z" fill="#FFE992"/>
                         </svg>
-                        <span className="absolute inset-0 flex items-center justify-center text-black font-[Karantina-Regular] text-4xl">
+                        <button 
+                            onClick={() => navigate("/form")} 
+                            className="absolute inset-0 flex items-center justify-center text-black font-[Karantina-Regular] text-4xl cursor-pointer"
+                        >
                             CREATE YOUR EVENT
-                        </span>
+                        </button>
+
                     </div>
 
                     {/* Star */}
