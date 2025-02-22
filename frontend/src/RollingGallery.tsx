@@ -5,6 +5,7 @@ import r2 from "./assets/rolling2.jpeg";
 import r3 from "./assets/rolling3.jpeg";
 import r4 from "./assets/rolling4.jpeg";
 import r5 from "./assets/rolling5.jpeg";
+import InfiniteScroll from "./components/Landingpage/InfiniteCarousel"
 
 interface RollingGalleryProps {
   autoplay?: boolean;
@@ -74,15 +75,21 @@ const RollingGallery: React.FC<RollingGalleryProps> = ({ autoplay = false, image
   };
 
   return (
-    <div className="relative h-[500px] w-full overflow-hidden bg-black">
+    <>
+    <div className="relative h-[800px] w-full overflow-hidden bg-black mb-20">
+      <div>
+        <h1 className="text-center mt-8 text-4xl font-['Karantina-Regular'] text-white">EXPLORE, BOOK, EXPERIENCE</h1>
+        <h2 className="text-center text-7xl font-['Karantina-Regular'] text-white">DISCOVER OUR RECENT EVENTS</h2>
+      </div>
+
       <div className="absolute inset-0 bg-gradient-to-b from-purple-900/20 to-black/40" />
-      <div className="absolute left-1/2 top-[87%] z-20 -translate-x-1/2 -translate-y-1/2">
+      {/* <div className="absolute left-1/2 top-[87%] z-20 -translate-x-1/2 -translate-y-1/2">
         <button className="rounded-full bg-purple-600 px-8 py-3 text-3xl font-['Karantina-Bold'] text-white shadow-lg transition-transform hover:scale-105">
           View More
         </button>
-      </div>
+      </div> */}
 
-      <div className="flex h-full items-center justify-center [perspective:1200px]">
+      <div className="flex h-full items-center justify-center [perspective:1200px] -mt-44">
         <motion.div
           drag="x"
           dragElastic={0}
@@ -120,6 +127,10 @@ const RollingGallery: React.FC<RollingGalleryProps> = ({ autoplay = false, image
         </motion.div>
       </div>
     </div>
+    <div className="-mt-56 mb-5">
+    <InfiniteScroll />
+    </div>
+    </>
   );
 };
 

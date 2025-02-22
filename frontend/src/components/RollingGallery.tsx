@@ -75,7 +75,7 @@ const RollingGallery: React.FC<RollingGalleryProps> = ({ autoplay = false, image
 
   return (
     <div className="relative h-[500px] w-full overflow-hidden bg-black">
-      <div className="absolute inset-0" />
+      <div className="absolute inset-0"/>
       <div className="absolute left-1/2 top-[87%] z-20 -translate-x-1/2 -translate-y-1/2">
         <button className="rounded-full bg-purple-600 px-8 py-3 text-3xl font-['Karantina-Bold'] text-white shadow-lg transition-transform hover:scale-105">
           View More
