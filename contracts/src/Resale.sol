@@ -36,7 +36,8 @@ contract TicketResale is ReentrancyGuard, Ownable {
         require(eventTimestamp > block.timestamp, "Event already passed");
 
         uint256 daysLeft = (eventTimestamp - block.timestamp) / 1 days;
-        uint256 maxResalePrice = originalPrice + ((originalPrice * daysLeft) / 100);
+        uint256 maxResalePrice = originalPrice +
+            ((originalPrice * daysLeft) / 100);
 
         listings[tokenId] = Listing({
             seller: msg.sender,
@@ -76,18 +77,34 @@ contract TicketResale is ReentrancyGuard, Ownable {
     }
 
     /// @notice Fetch details of a specific listing
-    function getListing(uint256 tokenId)
+    function getListing(
+        uint256 tokenId
+    )
         external
         view
-        returns (address seller, uint256 price, uint256 eventTimestamp, address artist)
+        returns (
+            address seller,
+            uint256 price,
+            uint256 eventTimestamp,
+            address artist
+        )
     {
         Listing memory listing = listings[tokenId];
         require(listing.seller != address(0), "Listing not found");
-        return (listing.seller, listing.price, listing.eventTimestamp, listing.artist);
+        return (
+            listing.seller,
+            listing.price,
+            listing.eventTimestamp,
+            listing.artist
+        );
     }
 
     /// @notice Fetch all active listings
-    function getAllListings() external view returns (uint256[] memory, address[] memory, uint256[] memory) {
+    function getAllListings()
+        external
+        view
+        returns (uint256[] memory, address[] memory, uint256[] memory)
+    {
         uint256 length = activeListings.length;
         uint256[] memory tokenIds = new uint256[](length);
         address[] memory sellers = new address[](length);
