@@ -1,0 +1,10 @@
+Total commits: 59
+Total ctimes: 1960
+Total files: 792
+Total loc: 136636
+| Author      |    loc |   coms |   fils |  distribution   |
+|:------------|-------:|-------:|-------:|:----------------|
+| haard18     | 133463 |     15 |    734 | 97.7/25.4/92.7  |
+| DevPatils   |   1637 |     21 |     27 | 1.2/35.6/ 3.4   |
+| dhairyaaa15 |    854 |     14 |     13 | 0.6/23.7/ 1.6   |
+| mandar4415  |    682 |      9 |     18 | 0.5/15.3/ 2.3   |
