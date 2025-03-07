@@ -12,10 +12,7 @@ const bookingSchema = new mongoose.Schema(
       required: true, // Link to the Event model (ObjectId)
     },
 
-    transactionHash: {
-      type: String,
-      default:null,
-    },
+ 
     status:{
       type:String,
     },
