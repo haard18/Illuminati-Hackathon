@@ -1,4 +1,3 @@
-import React from 'react';
 
 const CLIENT_ID = "7d515a5f97034139853e89c1ccfa1f09";
 const REDIRECT_URI = "http://localhost:5173/callback";

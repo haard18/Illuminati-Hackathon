@@ -22,7 +22,7 @@ export default function WertWidgetButton() {
     ]),
     // ...
   };
-  const [reactiveOptions, setReactiveOptions] = useState<ReactiveOptions>({
+  const [reactiveOptions, ] = useState<ReactiveOptions>({
     theme: "dark",
     listeners: {
       loaded: () => console.log("loaded"),

@@ -26,7 +26,7 @@ const BookingPage: React.FC<BookingPageProps> = ({ onBookNow, tickets, setTicket
   const { id: eventId } = useParams();
   const [event, setEvent] = useState<EventDetails | null>(null);
   const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [loading, ] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -62,6 +62,7 @@ const BookingPage: React.FC<BookingPageProps> = ({ onBookNow, tickets, setTicket
       // Calculate the new total price based on the updated tickets
       const newTotal = updatedTickets.reduce((sum, ticket) => {
         const ticketDetails = event?.[ticket.type as keyof EventDetails]; // Get ticket details from event
+        // @ts-ignore
         return sum + (parseInt(ticketDetails?.price.toString() || "0") * parseInt(ticket.quantity.toString() || "0")); // Calculate total price
       }, 0);
 

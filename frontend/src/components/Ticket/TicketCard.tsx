@@ -1,5 +1,5 @@
   import React from "react";
-import logo from "../../assets/Images/logo1.png";
+// import logo from "../../assets/Images/logo1.png";
   interface TicketCardProps {
     eventName: string;
     eventDate: string;

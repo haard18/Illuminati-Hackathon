@@ -6,14 +6,14 @@ import EventCarousel from "../components/EventCarousel";
 // import Events from "../components/Event";
 import Aboutus from "../Aboutus";
 import EventPromotion from "../components/Landingpage/EventPromotion";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import {  useState } from "react";
+// import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
-import InfiniteScrollStrip from "../components/Landingpage/InfiniteCarousel";
+// import InfiniteScrollStrip from "../components/Landingpage/InfiniteCarousel";
 
 const Home = () => {
-  const navigate = useNavigate();
-  const [counter,setcounter]=useState(0);
+  // const navigate = useNavigate();
+  // const [counter,setcounter]=useState(0);
   // useEffect(() => {
   //   const token = localStorage.getItem("spotify_access_token");
   //   const hasNavigated = localStorage.getItem("hasNavigated");

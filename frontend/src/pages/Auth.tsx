@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import  { useEffect, useState } from 'react';
+// import axios from 'axios';
 import Navbar from '../components/Navbar';
 import Signup from '../components/Signup';
 import guitarist from "../assets/Images/guitarist.png";
 import SpotifyLogin from '../components/SpotifyAuth';
 
 import { useNavigate } from 'react-router-dom';
-import SuserData from '../components/SuserData';
+// import SuserData from '../components/SuserData';
 
 interface UserProfile {
   display_name: string;
@@ -15,14 +15,14 @@ interface UserProfile {
   country: string;
 }
 
-interface Track {
+export interface Track {
   id: string;
   name: string;
   artists: { name: string }[];
   album: { name: string; images: { url: string }[] };
 }
 
-interface Artist {
+export interface Artist {
   id: string;
   name: string;
   images: { url: string }[];
@@ -34,8 +34,8 @@ const Auth = () => {
   // const [topTracks, setTopTracks] = useState<Track[]>([]);
   // const [topArtists, setTopArtists] = useState<Artist[]>([]);
   // const [followedArtists, setFollowedArtists] = useState<Artist[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  // const [, setLoading] = useState(false);
+  // const [, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {

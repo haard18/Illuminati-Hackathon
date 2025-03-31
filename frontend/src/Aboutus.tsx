@@ -1,4 +1,4 @@
-import React from 'react'
+
 import Abouttag1 from "../src/assets/Images/Aboutus/Abouttag1.png"
 import Abouttag2 from "../src/assets/Images/Aboutus/Abouttag2.png"
 import Aboutrect1 from "../src/assets/Images/Aboutus/Aboutrect1.png"

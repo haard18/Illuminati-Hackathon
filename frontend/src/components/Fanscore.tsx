@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const Fanscore = ({ artistName, eventId, buyer, tickets, onClose }: { artistName: string, eventId: string, buyer: string, tickets: { type: string; quantity: number }[], onClose: () => void }) => {
+const Fanscore = ({ artistName, eventId,  tickets, onClose }: { artistName: string, eventId: string,  tickets: { type: string; quantity: number }[], onClose: () => void }) => {
     interface Track {
         id: string;
         name: string;
@@ -27,8 +27,8 @@ const Fanscore = ({ artistName, eventId, buyer, tickets, onClose }: { artistName
     const [topTracks, setTopTracks] = useState<Track[]>([]);
     const [topArtists, setTopArtists] = useState<Artist[]>([]);
     const [fanScore, setFanScore] = useState<number | null>(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+    const [, setLoading] = useState(false);
+    const [, setError] = useState<string | null>(null);
     const [queued, setQueued] = useState(false);
 
     const fetchSpotifyData = async (token: string) => {

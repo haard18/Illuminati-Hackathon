@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Header from '../components/Eventpage/Header';
@@ -90,6 +90,7 @@ const EventPage = () => {
         <Fanscore 
           artistName={"The Local Train"}
           eventId={event._id}
+          // @ts-ignore
           buyer={buyer}
           tickets={tickets}
           onClose={closeFanscoreModal}

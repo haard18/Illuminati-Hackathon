@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 
 const categories = [
   { name: "Musical Events", bgColor: "bg-[#A14BFD]", borderColor: "border-[#438EFF]" },

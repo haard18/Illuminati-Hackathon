@@ -1,5 +1,5 @@
 import LinearCarousel from "./Carousel";
-import InfiniteScrollStrip from "./InfiniteCarousel";
+// import InfiniteScrollStrip from "./InfiniteCarousel";
 import offers from "../../assets/Images/offers.png"
 
 const Hero = () => {

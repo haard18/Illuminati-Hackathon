@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { Clock, Calendar, ChevronUp, ChevronDown } from 'lucide-react';
 
 const EventForm = () => {
@@ -17,7 +17,7 @@ const EventForm = () => {
   });
 
   const [responseMessage, setResponseMessage] = useState('');
-
+// @ts-ignore
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => {
@@ -27,6 +27,7 @@ const EventForm = () => {
         return {
           ...prevData,
           [parent]: {
+            // @ts-ignore
             ...prevData[parent],
             [child]: value,
           },
@@ -38,7 +39,7 @@ const EventForm = () => {
       };
     });
   };
-
+// @ts-ignore
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -52,6 +53,7 @@ const EventForm = () => {
     ];
 
     const missingFields = requiredFields.filter(field => {
+      // @ts-ignore
       const value = field.includes('.') ? field.split('.').reduce((obj, key) => obj[key], formData) : formData[field];
       return !value;
     });
@@ -77,6 +79,7 @@ const EventForm = () => {
         setResponseMessage(`Error: ${result.error}`);
       }
     } catch (error) {
+      // @ts-expect-error:ERROR
       setResponseMessage(`Error: ${error.message}`);
     }
   };

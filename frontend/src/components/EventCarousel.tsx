@@ -35,7 +35,7 @@ const EventCarousel: React.FC = () => {
     <div className="bg-black p-6 flex flex-col items-center mt-16">
       {/* Event Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-60 gap-y-14">
-        {events.map((event: Event, index: number) => (
+        {events.map((event: Event, ) => (
           <div
             key={event._id}
             className="relative flex items-center bg-[#FFE992] p-4 rounded-4xl shadow-lg w-[380px] h-[150px]"

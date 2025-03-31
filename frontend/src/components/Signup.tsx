@@ -10,7 +10,7 @@ interface SignupProps {
 
 const Signup: React.FC<SignupProps> = ({ userName, email }) => {
   const [password, setPassword] = useState("");
-  const [artistemail, setArtistEmail] = useState("");
+  const [, setArtistEmail] = useState("");
   const [walletAddress, setWalletAddress] = useState("");
   const [spotifyUrl, setSpotifyUrl] = useState("");
   const [userType, setUserType] = useState("user"); // "user" or "artist"

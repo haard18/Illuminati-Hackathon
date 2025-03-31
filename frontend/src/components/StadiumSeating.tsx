@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import seats from '../assets/seats.png';
 import bg from '../assets/bg.png'; // Import the background image
 

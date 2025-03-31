@@ -1,4 +1,4 @@
-import React from 'react';
+
 
 import TicketNavbar from '../components/Ticket/TicketNavbar';
 import TicketComponent from '../components/Ticket/Ticketstatictext';

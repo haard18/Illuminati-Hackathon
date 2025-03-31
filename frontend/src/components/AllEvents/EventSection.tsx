@@ -1,5 +1,4 @@
-import React from 'react';
-import { ArrowUpRight } from 'lucide-react';
+
 import EventCard from './EventCard';
 
 interface EventSectionProps {
@@ -7,6 +6,7 @@ interface EventSectionProps {
 }
 
 const EventSection = ({ title }: EventSectionProps) => {
+  console.log(title); 
   // Music Note SVG Icon
   const MusicNoteIcon = () => (
     <svg width="60" height="60" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
